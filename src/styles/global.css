@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* PCB Partners design tokens — Tailwind v4 @theme */
+@theme {
+  /* Colors (mirrored from pcbpartners.co.uk CSS audit) */
+  --color-pcb-ink:        #00000A;
+  --color-pcb-blue:       #0090FF;
+  --color-pcb-blue-alt:   #3B91F7;
+  --color-pcb-blue-light: #66BCFF;
+  --color-pcb-blue-tint:  #E6F2FF;
+  --color-pcb-paper:      #FFFFFF;
+  --color-pcb-surface:    #F5F5F5;
+  --color-pcb-border:     #E4E4E4;
+  --color-pcb-muted:      #7A7A7A;
+
+  /* Typography — brand display face is Pulp Display (loaded in Task 3) */
+  --font-display:      'PulpDisplayLight',     'Helvetica Neue', serif;
+  --font-display-xl:   'PulpDisplayExtraLight','Helvetica Neue', serif;
+  --font-display-bold: 'PulpDisplayExtraBold', 'Helvetica Neue', sans-serif;
+  --font-sans:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:         ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Small uppercase eyebrow tracking */
+  --tracking-brand-eyebrow: 0.2em;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    background-color: var(--color-pcb-paper);
+    color: var(--color-pcb-ink);
+  }
+}
