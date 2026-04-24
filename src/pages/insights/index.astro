@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const insights = (await getCollection('insight')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+---
+<BaseLayout title="Insights — PCB Partners">
+  <Nav slot="nav" />
+
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-12">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-muted">Insights</p>
+    <h1 class="mt-5 font-display text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight max-w-4xl">
+      Perspectives on the <em class="italic">digital economy.</em>
+    </h1>
+  </section>
+
+  <section class="pb-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 grid md:grid-cols-3 gap-4">
+      {insights.map(i => (
+        <a href={`/insights/${i.id}/`} class="block border border-pcb-border rounded-md p-6 hover:border-pcb-blue transition-colors">
+          <div class="text-[11px] uppercase tracking-brand-eyebrow text-pcb-muted">{i.data.date}</div>
+          <h2 class="mt-2 font-display text-xl leading-snug">{i.data.title}</h2>
+          {i.data.author && <p class="mt-3 text-sm text-pcb-ink/70">By {i.data.author}</p>}
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>

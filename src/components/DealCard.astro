@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { deal: CollectionEntry<'deal'> }
+const { deal } = Astro.props;
+const d = deal.data;
+const typeLabel = d.type === 'pe' ? 'Private Equity' : d.type.replace('-', ' ');
+const isCrossBorder = d.geoFrom && d.geoTo && d.geoFrom !== d.geoTo;
+---
+<article
+  class="relative border border-pcb-border rounded-md p-5 hover:border-pcb-blue transition-colors"
+  data-deal-type={d.type}
+  data-deal-sector={d.sector}
+  data-deal-cross-border={isCrossBorder ? 'true' : 'false'}
+>
+  <div class="absolute top-4 right-4 font-display-bold text-xs text-pcb-blue tracking-wider">{d.year}</div>
+  <div class="text-[10px] uppercase tracking-brand-eyebrow text-pcb-muted">{typeLabel}</div>
+  <h3 class="mt-2 font-display text-lg leading-snug">
+    {d.companyA}{d.companyB && <> <span class="text-pcb-blue">→</span> {d.companyB}</>}
+  </h3>
+  <div class="mt-4 flex flex-wrap gap-2 text-[10px] uppercase tracking-brand-eyebrow">
+    <span class="bg-pcb-surface text-pcb-ink/70 px-2 py-1 rounded-sm">{d.sector.replace(/-/g, ' ')}</span>
+    {d.geoFrom && (
+      <span class="bg-pcb-blue-tint text-pcb-blue px-2 py-1 rounded-sm">
+        {d.geoFrom}{d.geoTo && <> → {d.geoTo}</>}
+      </span>
+    )}
+  </div>
+</article>

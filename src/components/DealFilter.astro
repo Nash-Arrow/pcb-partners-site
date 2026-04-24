@@ -1,0 +1,89 @@
+---
+---
+<div class="max-w-7xl mx-auto px-6 lg:px-10 mb-8" id="deal-filter">
+  <div class="flex flex-wrap gap-2 text-sm">
+    <button type="button" class="filter-pill" data-filter-group="clear">All</button>
+    <span class="w-px bg-pcb-border mx-2 self-stretch"></span>
+    <button type="button" class="filter-pill" data-filter-group="type" data-filter-value="sell-side">Sell-side</button>
+    <button type="button" class="filter-pill" data-filter-group="type" data-filter-value="buy-side">Buy-side</button>
+    <button type="button" class="filter-pill" data-filter-group="type" data-filter-value="pe">PE</button>
+    <span class="w-px bg-pcb-border mx-2 self-stretch"></span>
+    <button type="button" class="filter-pill" data-filter-group="sector" data-filter-value="technology-services">Tech Services</button>
+    <button type="button" class="filter-pill" data-filter-group="sector" data-filter-value="management-consulting">Consulting</button>
+    <button type="button" class="filter-pill" data-filter-group="sector" data-filter-value="digital-media-marketing">Digital/Media</button>
+    <button type="button" class="filter-pill" data-filter-group="sector" data-filter-value="human-capital-management">HCM</button>
+    <span class="w-px bg-pcb-border mx-2 self-stretch"></span>
+    <button type="button" class="filter-pill" data-filter-group="crossBorder">Cross-border</button>
+  </div>
+</div>
+
+<style>
+  .filter-pill {
+    padding: 0.375rem 0.875rem;
+    border: 1px solid var(--color-pcb-border);
+    border-radius: 9999px;
+    color: var(--color-pcb-ink);
+    background: transparent;
+    transition: all 150ms ease;
+    cursor: pointer;
+  }
+  .filter-pill:hover { border-color: var(--color-pcb-blue); color: var(--color-pcb-blue); }
+  .filter-pill[aria-pressed="true"] {
+    background: var(--color-pcb-ink);
+    color: var(--color-pcb-paper);
+    border-color: var(--color-pcb-ink);
+  }
+</style>
+
+<script>
+  import { applyFilters, parseHashFilters, serializeFilters, EMPTY_STATE, type FilterState } from '../scripts/deal-filter';
+
+  const filterEl = document.getElementById('deal-filter');
+  const grid = document.getElementById('deal-grid');
+  if (filterEl && grid) {
+    const cards = Array.from(grid.querySelectorAll('article')) as HTMLElement[];
+    let state: FilterState = parseHashFilters(location.hash);
+
+    function render() {
+      applyFilters(cards, state);
+      filterEl!.querySelectorAll<HTMLButtonElement>('button.filter-pill').forEach(btn => {
+        const group = btn.dataset.filterGroup;
+        const value = btn.dataset.filterValue;
+        let active = false;
+        if (group === 'clear') {
+          active = state.types.length === 0 && state.sectors.length === 0 && !state.crossBorderOnly;
+        } else if (group === 'type' && value) active = state.types.includes(value);
+        else if (group === 'sector' && value) active = state.sectors.includes(value);
+        else if (group === 'crossBorder') active = state.crossBorderOnly;
+        btn.setAttribute('aria-pressed', String(active));
+      });
+      const newHash = serializeFilters(state);
+      const desired = newHash ? '#' + newHash : '';
+      if (location.hash !== desired) history.replaceState(null, '', location.pathname + desired);
+    }
+
+    filterEl.addEventListener('click', (ev) => {
+      const btn = (ev.target as HTMLElement).closest('button.filter-pill') as HTMLButtonElement | null;
+      if (!btn) return;
+      const group = btn.dataset.filterGroup;
+      const value = btn.dataset.filterValue;
+      if (group === 'clear') {
+        state = { ...EMPTY_STATE };
+      } else if (group === 'type' && value) {
+        state.types = state.types.includes(value) ? state.types.filter(t => t !== value) : [...state.types, value];
+      } else if (group === 'sector' && value) {
+        state.sectors = state.sectors.includes(value) ? state.sectors.filter(s => s !== value) : [...state.sectors, value];
+      } else if (group === 'crossBorder') {
+        state.crossBorderOnly = !state.crossBorderOnly;
+      }
+      render();
+    });
+
+    window.addEventListener('hashchange', () => {
+      state = parseHashFilters(location.hash);
+      render();
+    });
+
+    render();
+  }
+</script>

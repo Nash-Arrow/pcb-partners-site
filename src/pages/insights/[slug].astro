@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const insights = await getCollection('insight');
+  return insights.map(i => ({ params: { slug: i.id }, props: { insight: i } }));
+}
+
+const { insight } = Astro.props;
+const { Content } = await render(insight);
+---
+<BaseLayout title={`${insight.data.title} — PCB Insights`}>
+  <Nav slot="nav" />
+
+  <article class="max-w-3xl mx-auto px-6 lg:px-10 pt-20 pb-20">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-muted">
+      <a href="/insights/" class="hover:text-pcb-blue">Insights</a>
+      &nbsp;·&nbsp;
+      <span>{insight.data.date}</span>
+    </p>
+    <h1 class="mt-5 font-display text-4xl md:text-5xl leading-tight">
+      {insight.data.title}
+    </h1>
+    {insight.data.author && <p class="mt-4 text-sm text-pcb-ink/70">By {insight.data.author}</p>}
+    <div class="mt-10 prose prose-slate max-w-none">
+      <Content />
+    </div>
+  </article>
+
+  <Footer slot="footer" />
+</BaseLayout>

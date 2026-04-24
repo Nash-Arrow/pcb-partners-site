@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import DealCard from '../../components/DealCard.astro';
+import DealFilter from '../../components/DealFilter.astro';
+
+const deals = (await getCollection('deal')).sort((a, b) => b.data.year - a.data.year);
+const totalCount = deals.length;
+const countries = new Set(deals.flatMap(d => [d.data.geoFrom, d.data.geoTo].filter(Boolean) as string[]));
+const crossBorderCount = deals.filter(d => d.data.geoFrom && d.data.geoTo && d.data.geoFrom !== d.data.geoTo).length;
+const crossBorderPct = totalCount ? Math.round(100 * crossBorderCount / totalCount) : 0;
+---
+<BaseLayout title="Track record — PCB Partners">
+  <Nav slot="nav" />
+
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-12">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-muted">Track record</p>
+    <h1 class="mt-5 font-display text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight max-w-4xl">
+      Every deal tells a <em class="italic">cross-border story.</em>
+    </h1>
+    <p class="mt-6 max-w-2xl text-pcb-ink/70 leading-relaxed">
+      Selected transactions across technology services, consulting, digital/media, and HCM.
+    </p>
+
+    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-pcb-border">
+      <div>
+        <div class="font-display text-4xl md:text-5xl text-pcb-ink leading-none">{totalCount}</div>
+        <div class="mt-2 text-[11px] uppercase tracking-brand-eyebrow text-pcb-muted">Deals on this page</div>
+      </div>
+      <div>
+        <div class="font-display text-4xl md:text-5xl text-pcb-ink leading-none">{countries.size}</div>
+        <div class="mt-2 text-[11px] uppercase tracking-brand-eyebrow text-pcb-muted">Countries represented</div>
+      </div>
+      <div>
+        <div class="font-display text-4xl md:text-5xl text-pcb-ink leading-none">{crossBorderPct}<span class="text-xl text-pcb-blue font-display-bold align-top ml-1">%</span></div>
+        <div class="mt-2 text-[11px] uppercase tracking-brand-eyebrow text-pcb-muted">Cross-border</div>
+      </div>
+      <div>
+        <div class="font-display text-4xl md:text-5xl text-pcb-ink leading-none">4</div>
+        <div class="mt-2 text-[11px] uppercase tracking-brand-eyebrow text-pcb-muted">Sectors covered</div>
+      </div>
+    </div>
+  </section>
+
+  <DealFilter />
+
+  <section class="pb-24">
+    <div id="deal-grid" class="max-w-7xl mx-auto px-6 lg:px-10 grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+      {deals.map(deal => <DealCard deal={deal} />)}
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
