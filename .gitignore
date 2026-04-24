@@ -1,0 +1,25 @@
+# Brainstorming artefacts (preserved locally, not in git)
+.superpowers/
+
+# Design-audit snapshot (large fetched files)
+.design-audit/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
