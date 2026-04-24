@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+/* Pulp Display — self-hosted brand display face */
+@font-face {
+  font-family: 'PulpDisplayLight';
+  src: url('/fonts/pulp-display-light.woff2') format('woff2'),
+       url('/fonts/pulp-display-light.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PulpDisplayExtraLight';
+  src: url('/fonts/pulp-display-extra-light.woff2') format('woff2'),
+       url('/fonts/pulp-display-extra-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PulpDisplayExtraBold';
+  src: url('/fonts/pulp-display-extra-bold.woff2') format('woff2'),
+       url('/fonts/pulp-display-extra-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* PCB Partners design tokens — Tailwind v4 @theme */
 @theme {
   /* Colors (mirrored from pcbpartners.co.uk CSS audit) */
