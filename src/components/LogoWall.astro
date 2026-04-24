@@ -20,7 +20,7 @@ const logos: Logo[] = [
     <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-10 items-center">
       {logos.map(l => (
         <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
-          <img src={l.src} alt={l.alt} class="max-h-10 w-auto object-contain" style="filter: brightness(0) invert(1);" loading="lazy" />
+          <img src={l.src} alt={l.alt} class="max-h-10 w-auto object-contain invert grayscale mix-blend-screen" loading="lazy" />
         </div>
       ))}
     </div>
