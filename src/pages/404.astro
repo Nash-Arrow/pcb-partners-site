@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout title="Page not found — PCB Partners">
+  <Nav slot="nav" />
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-32 text-center">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-blue">404</p>
+    <h1 class="mt-5 font-display text-5xl md:text-7xl">
+      This page <em class="italic">went off-piste.</em>
+    </h1>
+    <p class="mt-8 text-pcb-ink/70">Let's get you back to somewhere useful.</p>
+    <a href="/" class="mt-8 inline-block border border-pcb-ink px-5 py-3 text-sm font-medium hover:bg-pcb-ink hover:text-pcb-paper rounded-sm">
+      Home →
+    </a>
+  </section>
+  <Footer slot="footer" />
+</BaseLayout>
