@@ -26,18 +26,18 @@
   font-display: swap;
 }
 
-/* PCB Partners design tokens — Tailwind v4 @theme */
+/* PCB Partners design tokens — dark theme */
 @theme {
-  /* Colors (mirrored from pcbpartners.co.uk CSS audit) */
-  --color-pcb-ink:        #00000A;
-  --color-pcb-blue:       #0090FF;
+  /* Colors — dark mode */
+  --color-pcb-ink:        #F5F5F5;  /* primary text — soft white */
+  --color-pcb-blue:       #0090FF;  /* brand accent — unchanged */
   --color-pcb-blue-alt:   #3B91F7;
   --color-pcb-blue-light: #66BCFF;
-  --color-pcb-blue-tint:  #E6F2FF;
-  --color-pcb-paper:      #FFFFFF;
-  --color-pcb-surface:    #F5F5F5;
-  --color-pcb-border:     #E4E4E4;
-  --color-pcb-muted:      #7A7A7A;
+  --color-pcb-blue-tint:  #0E2034;  /* dark tint for geo chips */
+  --color-pcb-paper:      #0A0B12;  /* main canvas — deep near-black */
+  --color-pcb-surface:    #141620;  /* elevated surface — contrast blocks */
+  --color-pcb-border:     #232630;  /* subtle dark dividers */
+  --color-pcb-muted:      #8B90A0;  /* secondary text — lighter for dark bg */
 
   /* Typography — brand display face is Pulp Display (loaded in Task 3) */
   --font-display:      'PulpDisplayLight',     'Helvetica Neue', serif;
