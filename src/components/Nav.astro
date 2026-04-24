@@ -1,0 +1,77 @@
+---
+const navLinks = [
+  { href: '/sectors/',  label: 'Sectors'  },
+  { href: '/services/', label: 'Services' },
+  { href: '/deals/',    label: 'Deals'    },
+  { href: '/team/',     label: 'Team'     },
+  { href: '/insights/', label: 'Insights' },
+];
+const currentPath = Astro.url.pathname;
+const isCurrent = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
+---
+
+<nav class="sticky top-0 z-40 bg-pcb-paper/95 backdrop-blur border-b border-pcb-border">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3" aria-label="PCB Partners home">
+      <img src="/logo.svg" alt="" class="h-8 w-auto" />
+      <span class="sr-only">PCB Partners</span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 text-sm">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class={`transition-colors ${isCurrent(link.href) ? 'text-pcb-blue' : 'text-pcb-ink hover:text-pcb-blue'}`}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <a
+        href="/contact/"
+        class="hidden md:inline-block border border-pcb-ink px-4 py-2 text-sm font-medium hover:bg-pcb-ink hover:text-pcb-paper transition-colors rounded-sm"
+      >
+        Contact
+      </a>
+      <button
+        id="nav-toggle"
+        class="md:hidden p-2 -mr-2"
+        aria-expanded="false"
+        aria-controls="mobile-drawer"
+        aria-label="Toggle navigation"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100" fill="currentColor">
+          <path d="M68.75,37.81H31.25a2.56,2.56,0,1,1,0-5.12h37.5a2.56,2.56,0,0,1,0,5.12Z"/>
+          <path d="M68.75,52.56H40.39a2.56,2.56,0,0,1,0-5.12H68.75a2.56,2.56,0,0,1,0,5.12Z"/>
+          <path d="M68.75,67.31h-21a2.56,2.56,0,0,1,0-5.12h21a2.56,2.56,0,0,1,0,5.12Z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-drawer" hidden class="md:hidden border-t border-pcb-border bg-pcb-paper">
+    <ul class="px-6 py-4 space-y-3 text-lg">
+      {navLinks.map(link => (
+        <li><a href={link.href} class="block py-2 text-pcb-ink">{link.label}</a></li>
+      ))}
+      <li><a href="/contact/" class="block py-2 text-pcb-blue font-medium">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('nav-toggle');
+  const drawer = document.getElementById('mobile-drawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      if (open) drawer.setAttribute('hidden', '');
+      else      drawer.removeAttribute('hidden');
+    });
+  }
+</script>

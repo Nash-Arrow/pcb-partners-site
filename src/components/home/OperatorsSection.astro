@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const partners = team.filter(t => t.data.isPartner);
+---
+<section class="bg-pcb-surface">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-24">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-blue">04 — Who we are</p>
+    <h2 class="mt-3 font-display text-3xl md:text-5xl leading-tight">
+      Advisors who've <em class="italic">sat in your chair.</em>
+    </h2>
+    <p class="mt-6 max-w-2xl text-pcb-ink/70 leading-relaxed">
+      Our partners have built and sold their own consulting and digital businesses. We're not bankers who've read about the sector — we're operators who've lived it.
+    </p>
+
+    <div class="mt-12 flex items-center gap-8 flex-wrap">
+      <div class="flex">
+        {partners.slice(0, 6).map((p, i) => (
+          <div
+            class="w-14 h-14 rounded-full bg-pcb-border border-[3px] border-pcb-paper flex items-center justify-center font-display text-lg text-pcb-muted"
+            style={`margin-left: ${i === 0 ? '0' : '-0.75rem'};`}
+          >
+            {p.data.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+          </div>
+        ))}
+      </div>
+      <div class="text-sm text-pcb-ink/80">
+        {partners.map(p => p.data.name).join(' · ')}
+        <br />
+        <a href="/team/" class="text-pcb-blue hover:underline">Meet the team →</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+interface Logo { src: string; alt: string; }
+const logos: Logo[] = [
+  { src: '/logos/reply.jpg',         alt: 'Reply'         },
+  { src: '/logos/wavestone.jpg',     alt: 'Wavestone'     },
+  { src: '/logos/atos.png',          alt: 'Atos'          },
+  { src: '/logos/hpe.png',           alt: 'Hewlett Packard Enterprise' },
+  { src: '/logos/apax.png',          alt: 'Apax Partners' },
+  { src: '/logos/ldc.png',           alt: 'LDC'           },
+  { src: '/logos/collabera.jpg',     alt: 'Collabera'     },
+  { src: '/logos/insight.jpg',       alt: 'Insight'       },
+  { src: '/logos/proxima.png',       alt: 'Proxima'       },
+  { src: '/logos/gresham-house.png', alt: 'Gresham House' },
+  { src: '/logos/palatine.png',      alt: 'Palatine'      },
+];
+---
+<section>
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-muted text-center">Trusted by</p>
+    <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-10 items-center">
+      {logos.map(l => (
+        <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity">
+          <img src={l.src} alt={l.alt} class="max-h-10 w-auto object-contain grayscale" loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

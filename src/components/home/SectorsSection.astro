@@ -1,0 +1,37 @@
+---
+import { getCollection, getEntries } from 'astro:content';
+
+const sectors = (await getCollection('sector')).sort((a, b) => a.data.order - b.data.order);
+
+const resolved = await Promise.all(sectors.map(async s => {
+  const slugs = s.data.dealSlugs.slice(0, 3);
+  const deals = slugs.length ? await getEntries(slugs.map(id => ({ collection: 'deal' as const, id }))) : [];
+  const recent = deals.map(d => d.data.companyA).join(' · ');
+  return { sector: s, recent };
+}));
+---
+<section class="bg-pcb-paper">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-24">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-blue">01 — Who we serve</p>
+    <h2 class="mt-3 font-display-bold text-3xl md:text-4xl">Four sectors. Deep specialism.</h2>
+
+    <div class="mt-12 grid md:grid-cols-2 gap-4">
+      {resolved.map(({ sector, recent }) => (
+        <a
+          href={`/sectors/${sector.id}/`}
+          class="group block border border-pcb-border rounded-md p-8 hover:border-pcb-blue transition-colors"
+        >
+          <h3 class="font-display text-2xl md:text-3xl text-pcb-ink group-hover:text-pcb-blue transition-colors">
+            {sector.data.title}
+          </h3>
+          <p class="mt-3 text-pcb-ink/70 leading-relaxed">{sector.data.oneLiner}</p>
+          {recent && (
+            <p class="mt-6 text-[11px] uppercase tracking-brand-eyebrow text-pcb-blue">
+              Recent: {recent}
+            </p>
+          )}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

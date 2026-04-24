@@ -1,14 +1,27 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/home/Hero.astro';
+import MetricsStrip from '../components/home/MetricsStrip.astro';
+import SectorsSection from '../components/home/SectorsSection.astro';
+import CrossBorderSection from '../components/home/CrossBorderSection.astro';
+import ServicesSection from '../components/home/ServicesSection.astro';
+import OperatorsSection from '../components/home/OperatorsSection.astro';
+import LogoWall from '../components/LogoWall.astro';
+import InsightsTeaser from '../components/home/InsightsTeaser.astro';
+import ClosingCTA from '../components/home/ClosingCTA.astro';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PCB Partners — scaffold</title>
-  </head>
-  <body>
-    <h1 class="text-3xl font-bold p-8 text-pcb-blue">PCB Partners scaffold</h1>
-  </body>
-</html>
+<BaseLayout title="PCB Partners — Global boutique M&A for the digital economy">
+  <Nav slot="nav" />
+  <Hero />
+  <MetricsStrip />
+  <SectorsSection />
+  <CrossBorderSection />
+  <ServicesSection />
+  <OperatorsSection />
+  <LogoWall />
+  <InsightsTeaser />
+  <ClosingCTA />
+  <Footer slot="footer" />
+</BaseLayout>

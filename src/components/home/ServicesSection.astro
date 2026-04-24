@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+
+const services = (await getCollection('service')).sort((a, b) => a.data.order - b.data.order);
+---
+<section>
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-24">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-blue">03 — What we do</p>
+    <h2 class="mt-3 font-display-bold text-3xl md:text-4xl">Buy. Sell. Partner with PE.</h2>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-4">
+      {services.map(s => (
+        <a href={`/services/${s.id}/`} class="group block border border-pcb-border rounded-md p-8 hover:border-pcb-blue transition-colors">
+          <h3 class="font-display text-2xl text-pcb-ink group-hover:text-pcb-blue">{s.data.title}</h3>
+          <p class="mt-3 text-pcb-ink/70 leading-relaxed">{s.data.oneLiner}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

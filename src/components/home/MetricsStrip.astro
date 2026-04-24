@@ -1,0 +1,25 @@
+---
+// Per spec §19.1: metric values must be substantiated before Ben sees the site.
+// These defaults are intentionally conservative — replace or remove before launch.
+interface Metric { big: string; unit?: string; label: string; }
+const metrics: Metric[] = [
+  { big: '100', unit: '+',   label: 'Deals advised'     },
+  { big: '14',              label: 'Countries'         },
+  { big: '4',               label: 'Sectors, deep'     },
+  { big: '20', unit: 'yr+',  label: 'Operator experience' },
+];
+---
+<div class="max-w-7xl mx-auto px-6 lg:px-10 pb-20">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-pcb-border">
+    {metrics.map(m => (
+      <div>
+        <div class="font-display-bold text-4xl md:text-5xl text-pcb-blue leading-none">
+          {m.big}{m.unit && <span class="text-xl align-top ml-1">{m.unit}</span>}
+        </div>
+        <div class="mt-2 text-[11px] uppercase tracking-brand-eyebrow text-pcb-muted">
+          {m.label}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

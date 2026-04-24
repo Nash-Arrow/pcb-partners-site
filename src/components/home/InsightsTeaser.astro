@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('insight');
+const latest = all
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .slice(0, 3);
+---
+<section class="bg-pcb-surface">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-24">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-blue">05 — Perspectives</p>
+    <div class="mt-3 flex items-baseline justify-between flex-wrap gap-4">
+      <h2 class="font-display-bold text-3xl md:text-4xl">Latest from PCB.</h2>
+      <a href="/insights/" class="text-sm text-pcb-blue hover:underline">All insights →</a>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-4">
+      {latest.map(i => (
+        <a href={`/insights/${i.id}/`} class="block bg-pcb-paper border border-pcb-border rounded-md p-6 hover:border-pcb-blue transition-colors">
+          <div class="text-[11px] uppercase tracking-brand-eyebrow text-pcb-muted">{i.data.date}</div>
+          <h3 class="mt-2 font-display text-lg leading-snug">{i.data.title}</h3>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
