@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const sectors = (await getCollection('sector')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Sectors — PCB Partners">
+  <Nav slot="nav" />
+
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-12">
+    <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-muted">Sectors</p>
+    <h1 class="mt-5 font-display text-[clamp(2.25rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight max-w-4xl">
+      Four sectors. <em class="italic">Deep specialism.</em>
+    </h1>
+    <p class="mt-8 max-w-2xl text-lg leading-relaxed text-pcb-ink/70">
+      We advise companies and investors across four verticals at the heart of the digital economy.
+    </p>
+  </section>
+
+  <section class="pb-24">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 grid md:grid-cols-2 gap-4">
+      {sectors.map(s => (
+        <a href={`/sectors/${s.id}/`} class="group block border border-pcb-border rounded-md p-8 hover:border-pcb-blue transition-colors">
+          <h2 class="font-display text-2xl md:text-3xl text-pcb-ink group-hover:text-pcb-blue">{s.data.title}</h2>
+          <p class="mt-3 text-pcb-ink/70 leading-relaxed">{s.data.oneLiner}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>

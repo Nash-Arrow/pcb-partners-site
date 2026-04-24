@@ -1,0 +1,57 @@
+---
+import { getCollection, getEntries, render } from 'astro:content';
+import InnerPageLayout from '../../layouts/InnerPageLayout.astro';
+
+export async function getStaticPaths() {
+  const services = await getCollection('service');
+  return services.map(s => ({ params: { slug: s.id }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+
+const dealSlugs = service.data.dealSlugs;
+const deals = dealSlugs.length
+  ? await getEntries(dealSlugs.map(id => ({ collection: 'deal' as const, id })))
+  : [];
+---
+<InnerPageLayout
+  title={`${service.data.title} — PCB Partners`}
+  description={service.data.oneLiner}
+  breadcrumb={{ parent: 'Services', parentHref: '/services/', current: service.data.title }}
+  headline={`${service.data.title} advisory.`}
+  lede={service.data.lede}
+>
+  <section class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <div class="prose prose-slate max-w-none">
+      <Content />
+    </div>
+  </section>
+
+  {deals.length > 0 && (
+    <section class="bg-pcb-surface">
+      <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+        <p class="text-xs uppercase tracking-brand-eyebrow text-pcb-blue">Selected transactions</p>
+        <h2 class="mt-3 font-display-bold text-2xl md:text-3xl">{service.data.title} deals.</h2>
+        <div class="mt-10 grid md:grid-cols-2 gap-4">
+          {deals.map(d => (
+            <div class="bg-pcb-paper border border-pcb-border rounded-md p-5 flex items-center gap-5">
+              <div class="flex-1">
+                <div class="text-[10px] uppercase tracking-brand-eyebrow text-pcb-muted">{d.data.type.replace('-', ' ')}</div>
+                <div class="mt-1 font-display text-lg">
+                  {d.data.companyA}{d.data.companyB && <> <span class="text-pcb-blue">→</span> {d.data.companyB}</>}
+                </div>
+                {d.data.geoFrom && (
+                  <div class="mt-1 text-xs text-pcb-muted">
+                    {d.data.geoFrom}{d.data.geoTo && <> → {d.data.geoTo}</>}
+                  </div>
+                )}
+              </div>
+              <div class="font-display-bold text-pcb-blue">{d.data.year}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</InnerPageLayout>
